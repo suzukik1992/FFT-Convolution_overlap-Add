@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 295.0, 266.0, 596.0, 750.0 ],
+		"rect" : [ 531.0, -1003.0, 606.0, 777.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -65,7 +65,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 17.0, 111.0, 66.0, 20.0 ],
+					"patching_rect" : [ 17.0, 110.0, 66.0, 20.0 ],
 					"text" : "saw Freq"
 				}
 
@@ -79,7 +79,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 17.0, 14.0, 347.0, 87.0 ],
-					"text" : "FFT-Convolution\nOverlap-add method\nusing Window-Sinc filter kernel"
+					"text" : "FFT-Convolution\nOverlap-Save Method\nusing Window-Sinc filter kernel"
 				}
 
 			}
@@ -120,12 +120,12 @@
 					"patching_rect" : [ 44.0, 279.463958740234375, 50.0, 22.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_shortname" : "number",
-							"parameter_type" : 0,
 							"parameter_longname" : "number",
 							"parameter_initial_enable" : 1,
 							"parameter_mmax" : 0.5,
-							"parameter_initial" : [ 0.5 ]
+							"parameter_initial" : [ 0.5 ],
+							"parameter_shortname" : "number",
+							"parameter_type" : 0
 						}
 
 					}
@@ -142,7 +142,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 399.0, 713.0, 179.0, 22.0 ],
+					"patching_rect" : [ 405.0, 716.0, 179.0, 22.0 ],
 					"text" : "buffer~ butterfly_8192samp -1 3"
 				}
 
@@ -155,7 +155,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 399.0, 684.0, 179.0, 22.0 ],
+					"patching_rect" : [ 405.0, 687.0, 179.0, 22.0 ],
 					"text" : "buffer~ butterfly_4096samp -1 3"
 				}
 
@@ -168,7 +168,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 399.0, 653.0, 179.0, 22.0 ],
+					"patching_rect" : [ 405.0, 656.0, 179.0, 22.0 ],
 					"text" : "buffer~ butterfly_2048samp -1 3"
 				}
 
@@ -181,18 +181,18 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 21.0, 133.0, 38.0, 37.0 ],
+					"patching_rect" : [ 21.0, 132.0, 38.0, 37.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_shortname" : "number",
-							"parameter_type" : 0,
 							"parameter_unitstyle" : 3,
 							"parameter_mmin" : 10.0,
 							"parameter_exponent" : 5.0,
 							"parameter_longname" : "live.dial",
 							"parameter_initial_enable" : 1,
 							"parameter_mmax" : 10000.0,
-							"parameter_initial" : [ 60.0 ]
+							"parameter_initial" : [ 60.0 ],
+							"parameter_shortname" : "number",
+							"parameter_type" : 0
 						}
 
 					}
@@ -236,7 +236,7 @@
 						}
 ,
 						"classnamespace" : "dsp.gen",
-						"rect" : [ 925.0, 266.0, 643.0, 750.0 ],
+						"rect" : [ 275.0, -1096.0, 924.0, 939.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -265,7 +265,7 @@
 						"subpatcher_template" : "",
 						"boxes" : [ 							{
 								"box" : 								{
-									"code" : "require(\"fftConv_winSync.genexpr\");\r\n\r\nBuffer buf_256samp(\"butterfly_256samp\");\r\nBuffer buf_512samp(\"butterfly_512samp\");\r\nBuffer buf_1024samp(\"butterfly_1024samp\");\r\nBuffer buf_2048samp(\"butterfly_2048samp\");\r\nBuffer buf_4096samp(\"butterfly_4096samp\");\r\nBuffer buf_8192samp(\"butterfly_8192samp\");\r\nBuffer buf_winSync_js(\"windowSyncBuf\");\r\n\r\nParam bufSize(256);\r\nParam fc(0);\r\n\r\nData buf_winSync(512, 2);\r\n\r\nDelay del_mCount(8196);\r\n\r\n// master clock\r\nmCount_1, mTrg, mNum = counter(1, 0, bufSize*2);\r\ndel_mCount.write(mCount_1);\r\nmCount_2 = del_mCount.read(bufSize);\r\n\r\n\r\nfftSize = 2*bufSize;\r\nif(change(fc) != 0){\r\n\tset_winSync(buf_winSync, fc, fftSize, buf_256samp, buf_512samp);\r\n}\r\n\r\nfft1 = fft_1(buf_256samp, buf_512samp, buf_winSync, fftSize, in1, mCount_1);\r\nfft2 = fft_2(buf_256samp, buf_512samp, buf_winSync, fftSize, in1, mCount_2);\r\nout1 = fft1 + fft2;",
+									"code" : "require(\"fftConvS_winSync.genexpr\");\r\n\r\nBuffer buf_256samp(\"butterfly_256samp\");\r\nBuffer buf_512samp(\"butterfly_512samp\");\r\nBuffer buf_1024samp(\"butterfly_1024samp\");\r\nBuffer buf_2048samp(\"butterfly_2048samp\");\r\nBuffer buf_4096samp(\"butterfly_4096samp\");\r\nBuffer buf_8192samp(\"butterfly_8192samp\");\r\n\r\nParam bufSize(256);\r\nParam fc(0);\r\n\r\nData buf_winSync(512, 2);\r\n\r\nDelay del_mCount(8196);\r\n\r\n// master clock\r\nmCount, mTrg, mNum = counter(1, 0, bufSize+1);\r\n\r\nfftSize = 2*bufSize;\r\nif(change(fc) != 0){\r\n\tset_winSync(buf_winSync, fc, fftSize, buf_256samp, buf_512samp);\r\n}\r\n\r\nfftConv = fft_ovrpS(buf_256samp, buf_512samp, buf_winSync, fftSize, in1, mCount);\r\nout1 = fftConv;\r\n",
 									"fontface" : 0,
 									"fontname" : "Menlo",
 									"fontsize" : 12.0,
@@ -274,7 +274,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 16.0, 38.0, 609.0, 659.0 ]
+									"patching_rect" : [ 18.0, 48.0, 849.0, 835.0 ]
 								}
 
 							}
@@ -285,7 +285,7 @@
 									"numinlets" : 0,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 16.0, 6.0, 28.0, 22.0 ],
+									"patching_rect" : [ 18.0, 14.0, 28.0, 22.0 ],
 									"text" : "in 1"
 								}
 
@@ -296,7 +296,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 16.0, 710.0, 35.0, 22.0 ],
+									"patching_rect" : [ 18.0, 894.0, 35.0, 22.0 ],
 									"text" : "out 1"
 								}
 
@@ -344,7 +344,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 399.0, 624.0, 179.0, 22.0 ],
+					"patching_rect" : [ 405.0, 627.0, 179.0, 22.0 ],
 					"text" : "buffer~ butterfly_1024samp -1 3"
 				}
 
@@ -357,7 +357,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 399.0, 593.0, 172.0, 22.0 ],
+					"patching_rect" : [ 405.0, 596.0, 172.0, 22.0 ],
 					"text" : "buffer~ butterfly_512samp -1 3"
 				}
 
@@ -370,7 +370,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 399.0, 566.0, 172.0, 22.0 ],
+					"patching_rect" : [ 405.0, 565.0, 172.0, 22.0 ],
 					"text" : "buffer~ butterfly_256samp -1 3"
 				}
 
@@ -405,13 +405,13 @@
 					"patching_rect" : [ 21.0, 422.5, 48.0, 136.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_shortname" : "live.gain~",
-							"parameter_type" : 0,
 							"parameter_unitstyle" : 4,
 							"parameter_mmin" : -70.0,
 							"parameter_longname" : "live.gain~",
 							"parameter_mmax" : 6.0,
-							"parameter_initial" : [ 0.0 ]
+							"parameter_initial" : [ 0.0 ],
+							"parameter_shortname" : "live.gain~",
+							"parameter_type" : 0
 						}
 
 					}
@@ -525,7 +525,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-4", 0 ],
-					"midpoints" : [ 30.5, 400.0, 129.5, 400.0 ],
+					"midpoints" : [ 30.5, 393.0, 129.5, 393.0 ],
 					"order" : 0,
 					"source" : [ "obj-5", 0 ]
 				}
@@ -540,9 +540,9 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-38" : [ "number", "number", 0 ],
 			"obj-7" : [ "live.dial", "number", 0 ],
 			"obj-12" : [ "live.gain~", "live.gain~", 0 ],
+			"obj-38" : [ "number", "number", 0 ],
 			"parameterbanks" : 			{
 
 			}
@@ -551,14 +551,14 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "js_butterflyIndex.js",
-				"bootpath" : "~/Documents/Max 7/Library/patch/FFT-Conv_WinSinc/code",
+				"bootpath" : "~/Documents/Max 7/Library/patch/FFT-Convolution_overlap-Save/FFT-Conv_WinSinc/code",
 				"patcherrelativepath" : "../code",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
-				"name" : "fftConv_winSync.genexpr",
-				"bootpath" : "~/Documents/Max 7/Library/patch/FFT-Conv_WinSinc/other",
+				"name" : "fftConvS_winSync.genexpr",
+				"bootpath" : "~/Documents/Max 7/Library/patch/FFT-Convolution_overlap-Save/FFT-Conv_WinSinc/other",
 				"patcherrelativepath" : "../other",
 				"type" : "GenX",
 				"implicit" : 1

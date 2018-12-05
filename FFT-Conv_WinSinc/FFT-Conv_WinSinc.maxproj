@@ -2,8 +2,8 @@
 	"name" : "FFT-Conv_WinSinc",
 	"version" : 1,
 	"creationdate" : 3626532142,
-	"modificationdate" : 3626532159,
-	"viewrect" : [ 25.0, 70.0, 300.0, 500.0 ],
+	"modificationdate" : 3626883180,
+	"viewrect" : [ 192.0, -784.0, 300.0, 500.0 ],
 	"autoorganize" : 1,
 	"hideprojectwindow" : 0,
 	"showdependencies" : 1,
@@ -27,7 +27,7 @@
 		}
 ,
 		"other" : 		{
-			"fftConv_winSync.genexpr" : 			{
+			"fftConvS_winSync.genexpr" : 			{
 				"kind" : "genexpr",
 				"local" : 1
 			}
